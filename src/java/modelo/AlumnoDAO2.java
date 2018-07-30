@@ -60,6 +60,30 @@ public class AlumnoDAO2 {
         return q.getResultList();
     }
     
+    //otra forma de query jpql (consulta simple)
+    public boolean readByRutJPQLCreate(String rut) throws SecurityException{
+        String sql = "Select a from Alumno a Where a.rut = :rut";
+        Query q=em.createQuery(sql);
+        q.setParameter("rut", rut);
+        
+        if (q.getResultList().size()>0) {
+            return true;
+        }else{
+            return false;
+        }
+    }
+    
+    //query JPQL (insertar)
+    public int createJPQL(Alumno dto) throws SecurityException{
+        if (readByRutJPQLCreate(dto.getRut())) {
+            return 0;
+        }else{
+            em.persist(dto);
+            return 1;
+        }
+    }
+    
+    
     
     
 }
